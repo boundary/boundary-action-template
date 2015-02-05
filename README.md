@@ -1,4 +1,4 @@
-# Boundary Action Template
+# Template for Actions in Boundary Premium
 
 ---
 
@@ -12,3 +12,4 @@
 
 > usage text goes here
 
+---
