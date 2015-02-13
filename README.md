@@ -1,14 +1,10 @@
-# Template for Actions in Boundary Premium
+# Template for Boundary Actions
 
 ---
 
 ##Description
 
-This project includes an implementation of the VictorOps Action for Boundary
-Premium, which can serve as a template for the development of other Actions.
-
-Also included in this project is a test harness that executes the VictorsOps
-Action and mock Boundary Premium internal alarm objects.
+This project includes a sample implementation of the Boundary Action (for Boundary Premium), which can serve as a template for the development of other Actions. We used recently created VictorOps Action as a base for this example. The project also provides a test harness, which executes the sample action, along with mock Boundary internal alarm objects.
 
 The test harness uses the [Nock](https://github.com/pgte/nock "Nock") library
 to mock HTTP requests to the VictorOps REST Endpoint.
@@ -19,11 +15,11 @@ to mock HTTP requests to the VictorOps REST Endpoint.
 
 **test/mockAlarm.js**
 
-> Mock Boundary Premium internal alarm objects
+> Mock Boundary internal alarm objects
 
 **test/victorops-spec.js**
 
-> Test harness that exectues the VictorOps Action
+> Test harness that executes the Boundary Action
 
 ---
 
@@ -45,9 +41,10 @@ An Action implementation for Boundary Premium has the following characteristics:
 	The VictorOps Action configuration property, for example, contains the following
 	settings:
 
+	* name
 	* apiToken
+	* severity (aka messageType)
 	* routingKey
-	* messageType
 
 	Other Action implementations will use configuration settings that are specific
 	to accessing that Action's endpoint.
@@ -65,7 +62,7 @@ An Action implementation for Boundary Premium has the following characteristics:
 	with the following request body:
 
 		{
-			"entity_id": "ALARM/40506/www-server-1/CPU usage is high",
+			"entity_id": "CPU usage is high - www-server-1 (Alarm 40506)",
 			"entity_display_name": "CPU usage is high",
 			"message_type": "CRITICAL",
 			"monitoring_tool": "Boundary",
