@@ -4,7 +4,7 @@
 
 ##Description
 
-This project includes a sample implementation of the Boundary Action (for Boundary Premium), which can serve as a template for the development of other Actions. We used recently created VictorOps Action as a base for this example. The project also provides a test harness, which executes the sample action, along with mock Boundary internal alarm objects.
+This project includes a sample implementation of the Boundary Action (for Boundary Premium), which can serve as a template for the development of other Actions. We recently created the VictorOps Action as a base for this example. The project also provides a test harness, which executes the sample action, along with mock Boundary internal alarm objects.
 
 The test harness uses the [Nock](https://github.com/pgte/nock "Nock") library
 to mock HTTP requests to the VictorOps REST Endpoint.
@@ -47,7 +47,15 @@ An Action implementation for Boundary Premium has the following characteristics:
 	* routingKey
 
 	Other Action implementations will use configuration settings that are specific
-	to accessing that Action's endpoint.
+	to accessing that Action's endpoint. For example, the xMatters Action configuration 
+	property contains the following settings:
+	
+	* name
+	* endpointURL
+	* username
+	* password
+	* targetGroupOrUser
+	* priority
 
 	*alarm* - the Boundary Premium internal alarm object. Please refer to `test/mockAlarm.js`
 	to see an example of all the properties in an alarm object.
@@ -67,6 +75,21 @@ An Action implementation for Boundary Premium has the following characteristics:
 			"message_type": "CRITICAL",
 			"monitoring_tool": "Boundary",
 			"state_message": "Server www-server-1's avg cpu utilization is 82.5%\n\nview dashboard - https://premium.boundary.com/home/5733/standard?ival=60&marker=1422377400000!network\n\nNOTE: CPU Utilization has exceeded 80% over a 60s duration"
+		}
+	
+	Other Action implementations will have request bodies that are specific to the REST
+	Endpoint being called. For example, the HipChat Action makes an HTTP POST request to
+	a REST Endpoint with the following request body:
+	
+		{
+			"color": "red",
+			"message": 
+				"<b>Your Boundary alarm has been triggered:</b>" +
+				"<ul>" +
+				"  <li>Server <strong>www-server-1</strong>'s avg cpu utilization is <strong style=\"color:#090\">82.5%</strong> <a href=\"https://premium.boundary.com/home/5733/standard?ival=60&marker=1422377400000!network\" target=\"new\">view dashboard</a></li>" +
+				"</ul>",
+			"message_format": "html",
+			"notify": true
 		}
 
 3. Returns a statistics object as the the callback function's second parameter.
